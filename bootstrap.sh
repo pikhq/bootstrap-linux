@@ -5,7 +5,7 @@ export CFLAGS="-Os"
 export LDFLAGS="-static -s"
 
 ./musl-bootstrap.build.sh
-CC=$R/bin/musl-gcc
+export CC=$R/bin/musl-gcc
 ./binutils.build.sh
 ./gcc.build.sh
 ./make.build.sh
