@@ -1,0 +1,97 @@
+diff -aur busybox-1.18.4.orig/include/platform.h busybox-1.18.4/include/platform.h
+--- busybox-1.18.4.orig/include/platform.h	2011-03-13 02:45:40.000000000 +0100
++++ busybox-1.18.4/include/platform.h	2011-04-05 23:35:30.008509894 +0200
+@@ -350,9 +350,7 @@
+ 
+ #endif
+ 
+-#if defined(__GLIBC__)
+-# define fdprintf dprintf
+-#endif
++#define fdprintf dprintf
+ 
+ #if defined(__dietlibc__)
+ # undef HAVE_STRCHRNUL
+@@ -374,6 +372,13 @@
+ # undef HAVE_STRCHRNUL
+ #endif
+ 
++#if defined(__musl__)
++# undef HAVE_SETBIT
++# include <stddef.h>
++# include <termios.h>
++# include <sys/ioctl.h>
++#endif
++
+ /*
+  * Now, define prototypes for all the functions defined in platform.c
+  * These must come after all the HAVE_* macros are defined (or not)
+--- busybox-1.18.4.orig/miscutils/man.c	2011-04-18 00:00:00.000000000 +0000
++++ busybox-1.18.4/miscutils/man.c	2011-04-18 09:14:10.863440396 +0000
+@@ -109,7 +109,7 @@
+ 	/* "2>&1" is added so that nroff errors are shown in pager too.
+ 	 * Otherwise it may show just empty screen */
+ 	cmd = xasprintf(
+-		man ? "gtbl | nroff -Tlatin1 -mandoc 2>&1 | %s"
++		man ? "nroff -Tutf -man 2>&1 | %s"
+ 		    : "%s",
+ 		pager);
+ 	system(cmd);
+diff -aur busybox-1.18.4.orig/networking/ifconfig.c busybox-1.18.4/networking/ifconfig.c
+--- busybox-1.18.4.orig/networking/ifconfig.c	2011-03-13 02:45:06.000000000 +0100
++++ busybox-1.18.4/networking/ifconfig.c	2011-04-05 23:35:13.391907076 +0200
+@@ -40,7 +40,7 @@
+ #include "inet_common.h"
+ 
+ #if ENABLE_FEATURE_IFCONFIG_SLIP
+-# include <net/if_slip.h>
++# include <linux/if_slip.h>
+ #endif
+ 
+ /* I don't know if this is needed for busybox or not.  Anyone? */
+diff -aur busybox-1.18.4.orig/networking/libiproute/iplink.c busybox-1.18.4/networking/libiproute/iplink.c
+--- busybox-1.18.4.orig/networking/libiproute/iplink.c	2011-03-13 02:45:06.000000000 +0100
++++ busybox-1.18.4/networking/libiproute/iplink.c	2011-04-05 23:35:13.391907076 +0200
+@@ -5,7 +5,6 @@
+  * Licensed under GPLv2 or later, see file LICENSE in this source tree.
+  */
+ #include <net/if.h>
+-#include <net/if_packet.h>
+ #include <netpacket/packet.h>
+ #include <net/ethernet.h>
+ 
+diff -aur busybox-1.18.4.orig/networking/libiproute/ll_types.c busybox-1.18.4/networking/libiproute/ll_types.c
+--- busybox-1.18.4.orig/networking/libiproute/ll_types.c	2011-03-13 02:45:06.000000000 +0100
++++ busybox-1.18.4/networking/libiproute/ll_types.c	2011-04-05 23:35:13.395240397 +0200
+@@ -7,6 +7,7 @@
+  *
+  * Authors: Alexey Kuznetsov, <kuznet@ms2.inr.ac.ru>
+  */
++#include <sys/socket.h>
+ #include <arpa/inet.h>
+ #include <linux/if_arp.h>
+ 
+diff -aur busybox-1.18.4.orig/scripts/mkconfigs busybox-1.18.4/scripts/mkconfigs
+--- busybox-1.18.4.orig/scripts/mkconfigs	2011-03-13 02:45:40.000000000 +0100
++++ busybox-1.18.4/scripts/mkconfigs	2011-04-05 23:35:13.395240397 +0200
+@@ -42,7 +42,7 @@
+  */
+ static const char bbconfig_config[] ALIGN1 ="
+ 
+-grep '^#\? \?CONFIG_' "$config" \
++egrep '^#? ?CONFIG_' "$config" \
+ | sed -e 's/\"/\\\"/g' -e 's/^/"/' -e 's/$/\\n"/'
+ 
+ echo ";"
+diff -aur busybox-1.18.4.orig/util-linux/fdisk.c busybox-1.18.4/util-linux/fdisk.c
+--- busybox-1.18.4.orig/util-linux/fdisk.c	2011-03-13 02:45:40.000000000 +0100
++++ busybox-1.18.4/util-linux/fdisk.c	2011-04-05 23:35:13.398573718 +0200
+@@ -529,7 +529,7 @@
+ {
+ #if ENABLE_FDISK_SUPPORT_LARGE_DISKS
+ 	off64_t off = (off64_t)secno * sector_size;
+-	if (lseek64(dev_fd, off, SEEK_SET) == (off64_t) -1)
++	if (lseek(dev_fd, off, SEEK_SET) == (off64_t) -1)
+ 		fdisk_fatal(unable_to_seek);
+ #else
+ 	uint64_t off = (uint64_t)secno * sector_size;
