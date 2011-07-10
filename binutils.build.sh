@@ -8,7 +8,7 @@ cd binutils-$VER
 sed -i 's/linux-gnu\* |/linux-gnu* | linux-musl* |/' config.sub
 echo "#define __pid_t int" >include/features.h
 
-./configure --target=$A-pc-linux-musl --disable-shared --disable-nls --prefix=/
+./configure --target=$A-unknown-linux-musl --host=$A-unknown-linux-musl --disable-shared --disable-nls --prefix=/
 make
 make DESTDIR=$R tooldir=/ install
 
