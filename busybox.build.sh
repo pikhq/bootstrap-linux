@@ -6,7 +6,7 @@ cd busybox-$VER
 
 patch -p1 <../busybox.patch
 cp ../busybox.config .config
-make CFLAGS_busybox="-Wl,-z,muldefs"
+make CFLAGS_busybox="-Wl,-z,muldefs" HOSTCFLAGS="-D_GNU_SOURCE"
 cp busybox $R/bin/
 cd ..
 rm -rf busybox-$VER
