@@ -8,9 +8,13 @@ cd binutils-$VER
 sed -i 's/linux-gnu\* |/linux-gnu* | linux-musl* |/' config.sub
 echo "#define __pid_t int" >include/features.h
 
-./configure --target=$A-unknown-linux-musl --host=$A-unknown-linux-musl --disable-shared --disable-nls --prefix=/
+./configure --target=$A-unknown-linux-musl --disable-shared --disable-nls --prefix=/
 make
 make DESTDIR=$R tooldir=/ install
+
+for i in addr2line c++filt elfedit gprof ld ld.bfd readelf size;do
+    test -e $i || ln -s $A-unknown-linux-musl-$i $R/bin/$i
+done
 
 cd ..
 rm -rf binutils-$VER
