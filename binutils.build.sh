@@ -13,7 +13,7 @@ make
 make DESTDIR=$R tooldir=/ install
 
 for i in addr2line c++filt elfedit gprof ld ld.bfd readelf size;do
-    test -e $i || ln -s $A-unknown-linux-musl-$i $R/bin/$i
+    test -e $R/bin/$i || ln -s $A-unknown-linux-musl-$i $R/bin/$i
 done
 
 cd ..
