@@ -12,13 +12,13 @@ cat >config.mak <<EOF
 ARCH = $A
 
 # Installation prefix. DO NOT use /, /usr, or /usr/local !
-prefix = $R
+prefix = /
 
 # Installation prefix for musl-gcc compiler wrapper.
-exec_prefix = $R
+exec_prefix = /
 
 # Location for the dynamic linker ld-musl-$(ARCH).so.1
-syslibdir = $R/lib/
+syslibdir = /lib/
 
 # Uncomment if you want to build i386 musl on a 64-bit host
 #CFLAGS += -m32
@@ -33,6 +33,6 @@ syslibdir = $R/lib/
 # SHARED_LIBS =
 EOF
 make
-make install
+make install DESTDIR=$R
 cd ..
 rm -rf musl-$VER
