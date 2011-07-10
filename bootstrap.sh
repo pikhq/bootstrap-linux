@@ -14,3 +14,4 @@ export CC=$R/bin/musl-gcc
 ./perl.build.sh
 ./linux.build.sh
 ./musl.build.sh
+./finish.build.sh
