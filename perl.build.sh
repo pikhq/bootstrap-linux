@@ -23,8 +23,7 @@ cd perl-$VER
   -Dincpath=$R/include -Dusrinc=$R/include -Dlibpth=$R/lib/ \
   -Dlocincpth=$R/local/include 
 
-make miniperl -j1
-cp ./miniperl $R/bin/
-ln -s miniperl $R/bin/perl
+make -j1
+make DESTDIR=$R install
 cd ..
 rm -rf perl-$VER
