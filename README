@@ -1,0 +1,22 @@
+    This is a complete, self-bootstrapping musl-based Linux system
+It contains nothing more than Linux, Perl, Busybox, Binutils, GCC, GNU
+Make, and GNU sed. I haven't attempted to minimize the configuration
+of these (yet), merely the package set. The programs get
+static-linked, but musl does install a dynamic linker, and GCC should
+be able to link programs against it.
+
+    To build this from a non-musl Linux system, you will need to
+execute ./bootstrap.sh. This will build musl and use the musl-gcc
+script to link all the programs against it, placing the result in
+./out/. To build from a musl Linux system, simply execute
+./build.sh. This does much the same as bootstrap.sh, but it uses the
+system's native C compiler for the build.
+
+    ./make_fs.sh can be used to generate a bootable ext2 filesystem
+from the out directory. To use it, you will need the "genext2fs"
+program installed. If you don't feel like using it, you can just copy
+the files onto a filesystem of your choice and boot it.
+
+    Only the version of GCC is chosen for any particular reason. I
+have opted for GCC 4.2.4, which is the last version of GCC that has no
+external dependencies on libraries.
