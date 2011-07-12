@@ -21,7 +21,7 @@ cd perl-$VER
   -Dman1dir=/share/man/man1 -Dman1ext=1perl \
   -Dman3dir=/share/man/man3 -Dman3ext=3perl \
   -Dincpath=$R/include -Dusrinc=$R/include -Dlibpth=$R/lib/ \
-  -Dlocincpth=$R/local/include 
+  -Dlocincpth=$R/local/include -Dusenm=false
 
 make -j1
 make DESTDIR=$R install
