@@ -4,6 +4,8 @@ mkdir -p $R/proc
 mkdir -p $R/dev
 mkdir -p $R/sys
 mkdir -p $R/root
+mkdir -p $R/mnt/
+mkdir -p $R/tmp/
 
 ln -s bin $R/sbin
 ln -s / $R/usr
