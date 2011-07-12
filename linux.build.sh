@@ -7,7 +7,7 @@ cp ../linux.config .config
 
 make HOSTCFLAGS=-D_GNU_SOURCE INSTALL_HDR_PATH=dest headers_install
 find dest/include \( -name .install -o -name ..install.cmd \) -delete
-mkdir -p $HOME/local/stow/musl-linux-headers-$VER/x86_64-pc-linux-musl/include/
+mkdir -p $R/include/
 cp -rv dest/include/* $R/include/
 
 make HOSTCFLAGS=-D_GNU_SOURCE
