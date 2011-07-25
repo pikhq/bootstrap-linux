@@ -11,6 +11,5 @@ export CC=gcc
 ./make.build.sh
 ./busybox.build.sh
 ./sed.build.sh
-./perl.build.sh
 ./linux.build.sh
 ./finish.build.sh
