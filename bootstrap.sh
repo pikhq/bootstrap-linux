@@ -9,7 +9,7 @@ export CC=$R/bin/musl-gcc
 ./binutils.build.sh
 ./gcc.build.sh
 ./make.build.sh
-./busybox.build.sh
 ./linux.build.sh
+./busybox.build.sh
 ./musl.build.sh
 ./finish.build.sh
