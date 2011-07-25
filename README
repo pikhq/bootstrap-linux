@@ -1,9 +1,9 @@
-    This is a complete, self-bootstrapping musl-based Linux system
-It contains nothing more than Linux, Perl, Busybox, Binutils, GCC, GNU
-Make, and GNU sed. I haven't attempted to minimize the configuration
-of these (yet), merely the package set. The programs get
-static-linked, but musl does install a dynamic linker, and GCC should
-be able to link programs against it.
+    This is a complete, self-bootstrapping musl-based Linux system It
+contains nothing more than Linux, Busybox, Binutils, GCC, and GNU
+Make. I haven't attempted to minimize the configuration of these
+(yet), merely the package set. The programs get static-linked, but
+musl does install a dynamic linker, and GCC should be able to link
+programs against it.
 
     To build this from a non-musl Linux system, you will need to
 execute ./bootstrap.sh. This will build musl and use the musl-gcc
