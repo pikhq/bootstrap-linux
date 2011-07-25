@@ -5,6 +5,9 @@ rm -rf linux-$VER;tar -xf linux-$VER.tar.bz2
 cd linux-$VER
 cp ../linux.config .config
 
+cat ../linux-noperl-capflags.patch ../linux-noperl-headers.patch \
+    ../linux-noperl-timeconst.patch | patch -p1
+
 make HOSTCFLAGS=-D_GNU_SOURCE INSTALL_HDR_PATH=dest headers_install
 find dest/include \( -name .install -o -name ..install.cmd \) -delete
 mkdir -p $R/include/
