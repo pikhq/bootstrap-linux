@@ -1,6 +1,6 @@
-diff -aur busybox-1.18.4.orig/include/platform.h busybox-1.18.4/include/platform.h
---- busybox-1.18.4.orig/include/platform.h	2011-03-13 02:45:40.000000000 +0100
-+++ busybox-1.18.4/include/platform.h	2011-04-05 23:35:30.008509894 +0200
+diff -Naur busybox-1.18.5-old/include/platform.h busybox-1.18.5/include/platform.h
+--- busybox-1.18.5-old/include/platform.h	2011-06-12 09:41:51.000000000 -0600
++++ busybox-1.18.5/include/platform.h	2011-07-25 15:24:50.742055564 -0600
 @@ -350,9 +350,7 @@
  
  #endif
@@ -26,8 +26,9 @@ diff -aur busybox-1.18.4.orig/include/platform.h busybox-1.18.4/include/platform
  /*
   * Now, define prototypes for all the functions defined in platform.c
   * These must come after all the HAVE_* macros are defined (or not)
---- busybox-1.18.4.orig/miscutils/man.c	2011-04-18 00:00:00.000000000 +0000
-+++ busybox-1.18.4/miscutils/man.c	2011-04-18 09:14:10.863440396 +0000
+diff -Naur busybox-1.18.5-old/miscutils/man.c busybox-1.18.5/miscutils/man.c
+--- busybox-1.18.5-old/miscutils/man.c	2011-06-12 09:41:51.000000000 -0600
++++ busybox-1.18.5/miscutils/man.c	2011-07-25 15:24:50.762055104 -0600
 @@ -109,7 +109,7 @@
  	/* "2>&1" is added so that nroff errors are shown in pager too.
  	 * Otherwise it may show just empty screen */
@@ -37,9 +38,9 @@ diff -aur busybox-1.18.4.orig/include/platform.h busybox-1.18.4/include/platform
  		    : "%s",
  		pager);
  	system(cmd);
-diff -aur busybox-1.18.4.orig/networking/ifconfig.c busybox-1.18.4/networking/ifconfig.c
---- busybox-1.18.4.orig/networking/ifconfig.c	2011-03-13 02:45:06.000000000 +0100
-+++ busybox-1.18.4/networking/ifconfig.c	2011-04-05 23:35:13.391907076 +0200
+diff -Naur busybox-1.18.5-old/networking/ifconfig.c busybox-1.18.5/networking/ifconfig.c
+--- busybox-1.18.5-old/networking/ifconfig.c	2011-06-12 09:41:51.000000000 -0600
++++ busybox-1.18.5/networking/ifconfig.c	2011-07-25 15:24:50.762055104 -0600
 @@ -40,7 +40,7 @@
  #include "inet_common.h"
  
@@ -49,9 +50,9 @@ diff -aur busybox-1.18.4.orig/networking/ifconfig.c busybox-1.18.4/networking/if
  #endif
  
  /* I don't know if this is needed for busybox or not.  Anyone? */
-diff -aur busybox-1.18.4.orig/networking/libiproute/iplink.c busybox-1.18.4/networking/libiproute/iplink.c
---- busybox-1.18.4.orig/networking/libiproute/iplink.c	2011-03-13 02:45:06.000000000 +0100
-+++ busybox-1.18.4/networking/libiproute/iplink.c	2011-04-05 23:35:13.391907076 +0200
+diff -Naur busybox-1.18.5-old/networking/libiproute/iplink.c busybox-1.18.5/networking/libiproute/iplink.c
+--- busybox-1.18.5-old/networking/libiproute/iplink.c	2011-06-12 09:41:52.000000000 -0600
++++ busybox-1.18.5/networking/libiproute/iplink.c	2011-07-25 15:24:50.762055104 -0600
 @@ -5,7 +5,6 @@
   * Licensed under GPLv2 or later, see file LICENSE in this source tree.
   */
@@ -60,9 +61,9 @@ diff -aur busybox-1.18.4.orig/networking/libiproute/iplink.c busybox-1.18.4/netw
  #include <netpacket/packet.h>
  #include <net/ethernet.h>
  
-diff -aur busybox-1.18.4.orig/networking/libiproute/ll_types.c busybox-1.18.4/networking/libiproute/ll_types.c
---- busybox-1.18.4.orig/networking/libiproute/ll_types.c	2011-03-13 02:45:06.000000000 +0100
-+++ busybox-1.18.4/networking/libiproute/ll_types.c	2011-04-05 23:35:13.395240397 +0200
+diff -Naur busybox-1.18.5-old/networking/libiproute/ll_types.c busybox-1.18.5/networking/libiproute/ll_types.c
+--- busybox-1.18.5-old/networking/libiproute/ll_types.c	2011-06-12 09:41:52.000000000 -0600
++++ busybox-1.18.5/networking/libiproute/ll_types.c	2011-07-25 15:24:50.762055104 -0600
 @@ -7,6 +7,7 @@
   *
   * Authors: Alexey Kuznetsov, <kuznet@ms2.inr.ac.ru>
@@ -71,21 +72,9 @@ diff -aur busybox-1.18.4.orig/networking/libiproute/ll_types.c busybox-1.18.4/ne
  #include <arpa/inet.h>
  #include <linux/if_arp.h>
  
-diff -aur busybox-1.18.4.orig/scripts/mkconfigs busybox-1.18.4/scripts/mkconfigs
---- busybox-1.18.4.orig/scripts/mkconfigs	2011-03-13 02:45:40.000000000 +0100
-+++ busybox-1.18.4/scripts/mkconfigs	2011-04-05 23:35:13.395240397 +0200
-@@ -42,7 +42,7 @@
-  */
- static const char bbconfig_config[] ALIGN1 ="
- 
--grep '^#\? \?CONFIG_' "$config" \
-+egrep '^#? ?CONFIG_' "$config" \
- | sed -e 's/\"/\\\"/g' -e 's/^/"/' -e 's/$/\\n"/'
- 
- echo ";"
-diff -aur busybox-1.18.4.orig/util-linux/fdisk.c busybox-1.18.4/util-linux/fdisk.c
---- busybox-1.18.4.orig/util-linux/fdisk.c	2011-03-13 02:45:40.000000000 +0100
-+++ busybox-1.18.4/util-linux/fdisk.c	2011-04-05 23:35:13.398573718 +0200
+diff -Naur busybox-1.18.5-old/util-linux/fdisk.c busybox-1.18.5/util-linux/fdisk.c
+--- busybox-1.18.5-old/util-linux/fdisk.c	2011-06-12 09:41:52.000000000 -0600
++++ busybox-1.18.5/util-linux/fdisk.c	2011-07-25 15:24:50.774054828 -0600
 @@ -529,7 +529,7 @@
  {
  #if ENABLE_FDISK_SUPPORT_LARGE_DISKS

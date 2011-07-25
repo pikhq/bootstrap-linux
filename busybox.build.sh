@@ -1,5 +1,5 @@
 #!/bin/sh -e
-VER=1.18.4
+VER=1.18.5
 test -e busybox-$VER.tar.bz2 || wget http://busybox.net/downloads/busybox-$VER.tar.bz2
 rm -rf busybox-$VER;tar -xf busybox-$VER.tar.bz2
 cd busybox-$VER
