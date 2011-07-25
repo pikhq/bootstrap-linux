@@ -10,6 +10,5 @@ export CC=gcc
 ./gcc.build.sh
 ./make.build.sh
 ./busybox.build.sh
-./sed.build.sh
 ./linux.build.sh
 ./finish.build.sh
