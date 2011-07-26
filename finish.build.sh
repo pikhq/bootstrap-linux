@@ -22,6 +22,7 @@ tty6:23:respawn:/bin/getty 38400 tty6
 ::ctrlaltdel:/bin/swapoff -a
 EOF
 cat >$R/etc/rc <<EOF
+#!/bin/sh
 mount -t proc proc /proc
 mount -o remount,rw /
 mount -t sysfs sysfs /sys
