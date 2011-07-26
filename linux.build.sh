@@ -1,6 +1,6 @@
 #!/bin/sh -e
-VER=2.6.38.2
-test -e linux-$VER.tar.bz2 || wget -c http://www.kernel.org/pub/linux/kernel/v2.6/linux-$VER.tar.bz2
+VER=3.0
+test -e linux-$VER.tar.bz2 || wget -c http://www.kernel.org/pub/linux/kernel/v3.0/linux-$VER.tar.bz2
 rm -rf linux-$VER;tar -xf linux-$VER.tar.bz2
 cd linux-$VER
 
