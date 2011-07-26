@@ -4,7 +4,7 @@ test -e busybox-$VER.tar.bz2 || wget http://busybox.net/downloads/busybox-$VER.t
 rm -rf busybox-$VER;tar -xf busybox-$VER.tar.bz2
 cd busybox-$VER
 
-patch -p1 <../busybox.patch
+cat ../busybox-musl-fixes.patch ../busybox-sysinfo.patch | patch -p1
 
 make allnoconfig HOSTCFLAGS="-D_GNU_SOURCE" KCONFIG_ALLCONFIG=../busybox.config
 make CFLAGS_busybox="-Wl,-z,muldefs" HOSTCFLAGS="-D_GNU_SOURCE" HOSTCC=gcc CC=$CC
