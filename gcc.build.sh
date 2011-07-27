@@ -17,8 +17,8 @@ CFLAGS="$CFLAGS -D_GNU_SOURCE -fgnu89-inline" ./configure \
     --libexecdir=/lib --mandir=/share/man --infodir=/share/info \
     --target=$A-unknown-linux-musl --host=$A-unknown-linux-musl
 
-make
-make DESTDIR=$R install
+make all-gcc
+make DESTDIR=$R install-gcc
 ln -sf gcc $R/bin/cc
 cd ..
 rm -rf gcc-$VER

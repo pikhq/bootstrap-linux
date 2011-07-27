@@ -9,8 +9,8 @@ sed -i 's/linux-gnu\* |/linux-gnu* | linux-musl* |/' config.sub
 echo "#define __pid_t int" >include/features.h
 
 ./configure --target=$A-unknown-linux-musl --disable-shared --disable-nls --prefix=/
-make
-make DESTDIR=$R tooldir=/ install
+make all-binutils all-ld all-gas
+make DESTDIR=$R tooldir=/ install-binutils install-ld install-gas
 
 for i in addr2line c++filt elfedit gprof ld ld.bfd readelf size;do
     test -e $R/bin/$i || ln -s $A-unknown-linux-musl-$i $R/bin/$i
