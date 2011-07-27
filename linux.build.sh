@@ -6,7 +6,7 @@ cd linux-$VER
 cp ../linux.config .config
 
 cat ../linux-noperl-capflags.patch ../linux-noperl-headers.patch \
-    ../linux-noperl-timeconst.patch | patch -p1
+    ../linux-noperl-timeconst.patch ../linux-posix-sed.patch | patch -p1
 
 make HOSTCFLAGS=-D_GNU_SOURCE INSTALL_HDR_PATH=dest headers_install
 find dest/include \( -name .install -o -name ..install.cmd \) -delete
