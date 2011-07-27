@@ -1,19 +1,20 @@
-# Block copying crap out of header files in the name of "portability" is
-# never a good idea.  It breaks stuff.  In this case, it won't build under
-# Linux 3.0.
-
-
---- busybox/include/libbb.h	2011-03-12 19:45:40.000000000 -0600
-+++ busybox.new/include/libbb.h	2011-07-23 18:24:06.563634320 -0500
-@@ -31,6 +31,7 @@
- #include <sys/mman.h>
- #include <sys/socket.h>
- #include <sys/stat.h>
-+#include <sys/sysinfo.h>
- #include <sys/time.h>
- #include <sys/types.h>
- #include <sys/wait.h>
-@@ -100,25 +101,6 @@
+diff -Naur busybox-1.18.5.orig/include/libbb.h busybox-1.18.5/include/libbb.h
+--- busybox-1.18.5.orig/include/libbb.h	2011-06-12 09:41:51.000000000 -0600
++++ busybox-1.18.5/include/libbb.h	2011-07-27 14:23:18.377240536 -0600
+@@ -44,6 +44,12 @@
+ #ifdef HAVE_SYS_STATFS_H
+ # include <sys/statfs.h>
+ #endif
++/* Don't do this here:
++ * #include <sys/sysinfo.h>
++ * Some linux/ includes pull in conflicting definition
++ * of struct sysinfo (only in some toolchanins), which breaks build.
++ * Include sys/sysinfo.h only in those files which need it.
++ */
+ #if ENABLE_SELINUX
+ # include <selinux/selinux.h>
+ # include <selinux/context.h>
+@@ -100,25 +106,6 @@
  #if !defined __FreeBSD__
  char *dirname(char *path);
  #endif
@@ -39,27 +40,56 @@
  #ifndef PATH_MAX
  # define PATH_MAX 256
  #endif
-diff -ru busybox/networking/Config.src busybox.new/networking/Config.src
---- busybox/networking/Config.src	2011-03-12 19:45:40.000000000 -0600
-+++ busybox.new/networking/Config.src	2011-07-23 19:12:14.379897634 -0500
-@@ -740,7 +740,7 @@
+diff -Naur busybox-1.18.5.orig/init/init.c busybox-1.18.5/init/init.c
+--- busybox-1.18.5.orig/init/init.c	2011-06-12 09:41:51.000000000 -0600
++++ busybox-1.18.5/init/init.c	2011-07-27 14:23:18.381240460 -0600
+@@ -113,7 +113,8 @@
+ #include <paths.h>
+ #include <sys/resource.h>
+ #ifdef __linux__
+-#include <linux/vt.h>
++# include <linux/vt.h>
++# include <sys/sysinfo.h>
+ #endif
+ #if ENABLE_FEATURE_UTMP
+ # include <utmp.h> /* DEAD_PROCESS */
+diff -Naur busybox-1.18.5.orig/procps/free.c busybox-1.18.5/procps/free.c
+--- busybox-1.18.5.orig/procps/free.c	2011-06-12 09:41:52.000000000 -0600
++++ busybox-1.18.5/procps/free.c	2011-07-27 14:23:18.381240460 -0600
+@@ -10,6 +10,9 @@
+ /* getopt not needed */
  
- config TCPSVD
- 	bool "tcpsvd"
--	default y
-+	default n
- 	help
- 	  tcpsvd listens on a TCP port and runs a program for each new
- 	  connection.
-diff -ru busybox/networking/Config.src busybox.new/networking/Config.src
---- busybox/networking/Config.src	2011-07-23 19:30:19.800800291 -0500
-+++ busybox.new/networking/Config.src	2011-07-23 19:39:50.129877165 -0500
-@@ -972,7 +972,7 @@
+ #include "libbb.h"
++#ifdef __linux__
++# include <sys/sysinfo.h>
++#endif
  
- config UDPSVD
- 	bool "udpsvd"
--	default y
-+	default n
- 	help
- 	  udpsvd listens on an UDP port and runs a program for each new
- 	  connection.
+ struct globals {
+ 	unsigned mem_unit;
+diff -Naur busybox-1.18.5.orig/procps/ps.c busybox-1.18.5/procps/ps.c
+--- busybox-1.18.5.orig/procps/ps.c	2011-06-12 09:41:52.000000000 -0600
++++ busybox-1.18.5/procps/ps.c	2011-07-27 14:23:18.381240460 -0600
+@@ -16,6 +16,9 @@
+ 
+ #if ENABLE_DESKTOP
+ 
++#ifdef __linux__
++# include <sys/sysinfo.h>
++#endif
+ #include <sys/times.h> /* for times() */
+ #ifndef AT_CLKTCK
+ #define AT_CLKTCK 17
+diff -Naur busybox-1.18.5.orig/procps/uptime.c busybox-1.18.5/procps/uptime.c
+--- busybox-1.18.5.orig/procps/uptime.c	2011-06-12 09:41:52.000000000 -0600
++++ busybox-1.18.5/procps/uptime.c	2011-07-27 14:23:18.385240384 -0600
+@@ -16,6 +16,10 @@
+ /* getopt not needed */
+ 
+ #include "libbb.h"
++#ifdef __linux__
++# include <sys/sysinfo.h>
++#endif
++
+ 
+ #ifndef FSHIFT
+ # define FSHIFT 16              /* nr of bits of precision */
