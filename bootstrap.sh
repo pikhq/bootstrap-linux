@@ -1,5 +1,7 @@
 #!/bin/sh -e
-export A=$(uname -m)
+A=$(uname -m)
+[ "$A" = i686 ] && A=i386
+export A
 export R=$(pwd)/out/
 export CFLAGS="-Os"
 export LDFLAGS="-static -s"
