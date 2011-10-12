@@ -9,7 +9,7 @@ cat >config.mak <<EOF
 #
 
 # Target CPU architecture. Supported values: i386, x86_64
-ARCH = $A
+ARCH = \$A
 
 # Installation prefix. DO NOT use /, /usr, or /usr/local !
 prefix = /
@@ -17,7 +17,7 @@ prefix = /
 # Installation prefix for musl-gcc compiler wrapper.
 exec_prefix = /
 
-# Location for the dynamic linker ld-musl-$(ARCH).so.1
+# Location for the dynamic linker ld-musl-\$(ARCH).so.1
 syslibdir = /lib/
 
 # Uncomment if you want to build i386 musl on a 64-bit host
