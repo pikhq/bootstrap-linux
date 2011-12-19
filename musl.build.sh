@@ -1,5 +1,5 @@
 #!/bin/sh -e
-VER=0.7.12
+VER=0.8.3
 test -e musl-$VER.tar.gz || wget http://www.etalabs.net/musl/releases/musl-$VER.tar.gz
 rm -rf musl-$VER;tar -xf musl-$VER.tar.gz
 cd musl-$VER
@@ -9,7 +9,7 @@ cat >config.mak <<EOF
 #
 
 # Target CPU architecture. Supported values: i386, x86_64
-ARCH = \$A
+ARCH = $A
 
 # Installation prefix. DO NOT use /, /usr, or /usr/local !
 prefix = /
