@@ -13,5 +13,5 @@ export CC=$R/bin/musl-gcc
 ./make.build.sh
 ./linux.build.sh
 ./busybox.build.sh
-./musl.build.sh
+CC=gcc ./musl.build.sh
 ./finish.build.sh
