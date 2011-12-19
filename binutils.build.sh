@@ -1,5 +1,5 @@
 #!/bin/sh -e
-VER=2.21.1
+VER=2.22
 TOP=$(pwd)
 test -e binutils-$VER.tar.bz2 || wget http://ftp.gnu.org/gnu/binutils/binutils-$VER.tar.bz2
 rm -rf binutils-$VER;tar -xf binutils-$VER.tar.bz2
