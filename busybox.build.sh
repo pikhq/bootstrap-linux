@@ -1,10 +1,10 @@
 #!/bin/sh -e
-VER=1.18.5
+VER=1.19.3
 test -e busybox-$VER.tar.bz2 || wget http://busybox.net/downloads/busybox-$VER.tar.bz2
 rm -rf busybox-$VER;tar -xf busybox-$VER.tar.bz2
 cd busybox-$VER
 
-cat ../busybox-musl-fixes.patch ../busybox-sysinfo.patch | patch -p1
+cat ../busybox-musl-fixes.patch | patch -p1
 
 make allnoconfig HOSTCFLAGS="-D_GNU_SOURCE" KCONFIG_ALLCONFIG=../busybox.config
 make CFLAGS_busybox="-Wl,-z,muldefs" HOSTCFLAGS="-D_GNU_SOURCE" HOSTCC=gcc CC=$CC

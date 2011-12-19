@@ -1,19 +1,8 @@
-diff -Naur busybox-1.18.5-old/include/platform.h busybox-1.18.5/include/platform.h
---- busybox-1.18.5-old/include/platform.h	2011-06-12 09:41:51.000000000 -0600
-+++ busybox-1.18.5/include/platform.h	2011-07-25 15:24:50.742055564 -0600
-@@ -350,9 +350,7 @@
- 
- #endif
- 
--#if defined(__GLIBC__)
--# define fdprintf dprintf
--#endif
-+#define fdprintf dprintf
- 
- #if defined(__dietlibc__)
- # undef HAVE_STRCHRNUL
-@@ -374,6 +372,13 @@
- # undef HAVE_STRCHRNUL
+diff -Naur busybox-1.19.3-old/include/platform.h busybox-1.19.3/include/platform.h
+--- busybox-1.19.3-old/include/platform.h	2011-10-29 05:43:01.000000000 -0600
++++ busybox-1.19.3/include/platform.h	2011-12-18 15:53:49.817278374 -0700
+@@ -443,6 +443,13 @@
+ # undef HAVE_NET_ETHERNET_H
  #endif
  
 +#if defined(__musl__)
@@ -26,10 +15,10 @@ diff -Naur busybox-1.18.5-old/include/platform.h busybox-1.18.5/include/platform
  /*
   * Now, define prototypes for all the functions defined in platform.c
   * These must come after all the HAVE_* macros are defined (or not)
-diff -Naur busybox-1.18.5-old/miscutils/man.c busybox-1.18.5/miscutils/man.c
---- busybox-1.18.5-old/miscutils/man.c	2011-06-12 09:41:51.000000000 -0600
-+++ busybox-1.18.5/miscutils/man.c	2011-07-25 15:24:50.762055104 -0600
-@@ -109,7 +109,7 @@
+diff -Naur busybox-1.19.3-old/miscutils/man.c busybox-1.19.3/miscutils/man.c
+--- busybox-1.19.3-old/miscutils/man.c	2011-09-05 20:35:17.000000000 -0600
++++ busybox-1.19.3/miscutils/man.c	2011-12-18 15:53:49.817278374 -0700
+@@ -116,7 +116,7 @@
  	/* "2>&1" is added so that nroff errors are shown in pager too.
  	 * Otherwise it may show just empty screen */
  	cmd = xasprintf(
@@ -38,11 +27,11 @@ diff -Naur busybox-1.18.5-old/miscutils/man.c busybox-1.18.5/miscutils/man.c
  		    : "%s",
  		pager);
  	system(cmd);
-diff -Naur busybox-1.18.5-old/networking/ifconfig.c busybox-1.18.5/networking/ifconfig.c
---- busybox-1.18.5-old/networking/ifconfig.c	2011-06-12 09:41:51.000000000 -0600
-+++ busybox-1.18.5/networking/ifconfig.c	2011-07-25 15:24:50.762055104 -0600
-@@ -40,7 +40,7 @@
- #include "inet_common.h"
+diff -Naur busybox-1.19.3-old/networking/ifconfig.c busybox-1.19.3/networking/ifconfig.c
+--- busybox-1.19.3-old/networking/ifconfig.c	2011-09-05 20:35:17.000000000 -0600
++++ busybox-1.19.3/networking/ifconfig.c	2011-12-18 15:53:49.817278374 -0700
+@@ -56,7 +56,7 @@
+ #endif
  
  #if ENABLE_FEATURE_IFCONFIG_SLIP
 -# include <net/if_slip.h>
@@ -50,32 +39,21 @@ diff -Naur busybox-1.18.5-old/networking/ifconfig.c busybox-1.18.5/networking/if
  #endif
  
  /* I don't know if this is needed for busybox or not.  Anyone? */
-diff -Naur busybox-1.18.5-old/networking/libiproute/iplink.c busybox-1.18.5/networking/libiproute/iplink.c
---- busybox-1.18.5-old/networking/libiproute/iplink.c	2011-06-12 09:41:52.000000000 -0600
-+++ busybox-1.18.5/networking/libiproute/iplink.c	2011-07-25 15:24:50.762055104 -0600
+diff -Naur busybox-1.19.3-old/networking/libiproute/iplink.c busybox-1.19.3/networking/libiproute/iplink.c
+--- busybox-1.19.3-old/networking/libiproute/iplink.c	2011-09-05 20:35:17.000000000 -0600
++++ busybox-1.19.3/networking/libiproute/iplink.c	2011-12-18 15:53:49.821278291 -0700
 @@ -5,7 +5,6 @@
   * Licensed under GPLv2 or later, see file LICENSE in this source tree.
   */
  #include <net/if.h>
 -#include <net/if_packet.h>
  #include <netpacket/packet.h>
- #include <net/ethernet.h>
+ #include <netinet/if_ether.h>
  
-diff -Naur busybox-1.18.5-old/networking/libiproute/ll_types.c busybox-1.18.5/networking/libiproute/ll_types.c
---- busybox-1.18.5-old/networking/libiproute/ll_types.c	2011-06-12 09:41:52.000000000 -0600
-+++ busybox-1.18.5/networking/libiproute/ll_types.c	2011-07-25 15:24:50.762055104 -0600
-@@ -7,6 +7,7 @@
-  *
-  * Authors: Alexey Kuznetsov, <kuznet@ms2.inr.ac.ru>
-  */
-+#include <sys/socket.h>
- #include <arpa/inet.h>
- #include <linux/if_arp.h>
- 
-diff -Naur busybox-1.18.5-old/util-linux/fdisk.c busybox-1.18.5/util-linux/fdisk.c
---- busybox-1.18.5-old/util-linux/fdisk.c	2011-06-12 09:41:52.000000000 -0600
-+++ busybox-1.18.5/util-linux/fdisk.c	2011-07-25 15:24:50.774054828 -0600
-@@ -529,7 +529,7 @@
+diff -Naur busybox-1.19.3-old/util-linux/fdisk.c busybox-1.19.3/util-linux/fdisk.c
+--- busybox-1.19.3-old/util-linux/fdisk.c	2011-09-05 20:35:17.000000000 -0600
++++ busybox-1.19.3/util-linux/fdisk.c	2011-12-18 15:53:49.821278291 -0700
+@@ -550,7 +550,7 @@
  {
  #if ENABLE_FDISK_SUPPORT_LARGE_DISKS
  	off64_t off = (off64_t)secno * sector_size;
