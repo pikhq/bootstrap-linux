@@ -10,7 +10,7 @@ mkdir -p $R/tmp/
 ln -s bin $R/sbin
 ln -s / $R/usr
 
-cat >$R/etc/inittab <<EOF
+cat >$R/etc/inittab <<-EOF
 ::sysinit:/etc/rc
 tty1:2345:respawn:/bin/getty 38400 tty1
 tty2:23:respawn:/bin/getty 38400 tty2
@@ -21,8 +21,10 @@ tty6:23:respawn:/bin/getty 38400 tty6
 ::ctrlaltdel:/bin/umount -a -r
 ::ctrlaltdel:/bin/swapoff -a
 EOF
-cat >$R/etc/rc <<EOF
+
+cat >$R/etc/rc <<-EOF
 #!/bin/sh
+cd /
 mount -t proc proc /proc
 mount -o remount,rw /
 mount -t sysfs sysfs /sys
@@ -31,11 +33,12 @@ mkdir /dev/pts
 mount -t devpts devpts /dev/pts
 echo /bin/mdev > /proc/sys/kernel/hotplug
 mdev -s
+hostname $(cat /etc/hostname)
 EOF
-
-cat >$R/etc/passwd <<EOF
-root::0:0:root:/root:/bin/sh
-EOF
-
 chmod +x $R/etc/rc
 
+echo "bootstrap" >$R/etc/hostname
+
+cat >$R/etc/passwd <<-EOF
+root::0:0:root:/root:/bin/sh
+EOF
