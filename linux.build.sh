@@ -1,5 +1,5 @@
 #!/bin/sh -e
-VER=3.1.5
+VER=3.1.6
 test -e linux-$VER.tar.bz2 || wget -c http://www.kernel.org/pub/linux/kernel/v3.0/linux-$VER.tar.bz2
 rm -rf linux-$VER;tar -xf linux-$VER.tar.bz2
 cd linux-$VER
