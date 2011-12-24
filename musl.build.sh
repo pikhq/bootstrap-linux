@@ -3,6 +3,7 @@ VER=0.8.3
 test -e musl-$VER.tar.gz || wget http://www.etalabs.net/musl/releases/musl-$VER.tar.gz
 rm -rf musl-$VER;tar -xf musl-$VER.tar.gz
 cd musl-$VER
+patch -p1 <../musl-reboot.patch
 cat >config.mak <<EOF
 #
 # musl config.mak template (original in dist/config.mak)

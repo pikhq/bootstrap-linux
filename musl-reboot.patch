@@ -1,0 +1,10 @@
+diff -Naur musl-0.8.3-old/src/linux/reboot.c musl-0.8.3/src/linux/reboot.c
+--- musl-0.8.3-old/src/linux/reboot.c	2011-09-21 18:24:48.000000000 -0600
++++ musl-0.8.3/src/linux/reboot.c	2011-12-23 16:50:43.258324818 -0700
+@@ -3,5 +3,5 @@
+ 
+ int reboot(int type)
+ {
+-	return syscall(SYS_reboot, type);
++	return syscall(SYS_reboot, 0xfee1dead, 672274793, type);
+ }
