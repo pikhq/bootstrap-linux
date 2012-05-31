@@ -1,0 +1,15 @@
+name=binutils
+
+url=http://ftp.gnu.org/gnu/$name/$name-$version.tar.bz2
+patches=binutils-2.22-musl.diff
+out=$top/cross
+
+CFLAGS="$CFLAGS -D_GNU_SOURCE"
+
+config() {
+	./configure --target=$A-unknown-linux-musl --prefix="$out"
+}
+
+install() {
+	make install
+}

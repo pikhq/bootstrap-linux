@@ -1,0 +1,22 @@
+url=http://busybox.net/downloads/$name-$version.tar.bz2
+
+patches=busybox-musl-fixes.patch
+
+config() {
+	make allnoconfig CROSS_COMPILE="$A-unknown-linux-musl-" HOSTCFLAGS="-D_GNU_SOURCE" \
+		KCONFIG_ALLCONFIG="$top"/busybox.config
+}
+
+build() {
+	make CROSS_COMPILE="$A-unknown-linux-musl-" HOSTCFLAGS="-D_GNU_SOURCE"
+}
+
+install() {
+	make busybox.links
+	mkdir -p "$out"/bin
+	cp busybox "$out"/bin/busybox
+
+	cat busybox.links | while read line;do
+		ln -s busybox "$(basename $line)"
+	done
+}

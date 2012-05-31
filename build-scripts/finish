@@ -1,0 +1,51 @@
+fetch() { :; }
+unpack() { :; }
+config() { :; }
+build() { :; }
+
+install() {
+	for i in etc proc dev sys root mnt tmp;do
+		mkdir -p "$out"/$i
+	done
+
+	if [ -d "$out"/sbin ];then
+		mv "$out"/sbin/* "$out"/bin
+		rmdir "$out"/sbin
+		ln -s bin "$out"/sbin
+	fi
+
+	ln -sf / "$out"/usr
+
+	cat >"$out"/etc/inittab <<-"EOF"
+	::sysinit:/etc/rc
+	tty1:2345:respawn:/bin/getty 38400 tty1
+	tty2:23:respawn:/bin/getty 38400 tty2
+	tty3:23:respawn:/bin/getty 38400 tty3
+	tty4:23:respawn:/bin/getty 38400 tty4
+	tty5:23:respawn:/bin/getty 38400 tty5
+	tty6:23:respawn:/bin/getty 38400 tty6
+	::ctrlaltdel:/bin/umount -a -r
+	::ctrlaltdel:/bin/swapoff -a
+	EOF
+
+	cat >"$out"/etc/rc <<-"EOF"
+	#!/bin/sh
+	cd /
+	mount -t proc proc /proc
+	mount -o remount,rw /
+	mount -t sysfs sysfs /sys
+	mount -t tmpfs mdev /dev
+	mkdir /dev/pts
+	mount -t devpts devpts /dev/pts
+	echo /bin/mdev > /proc/sys/kernel/hotplug
+	mdev -s
+	hostname $(cat /etc/hostname)
+	EOF
+	chmod +x "$out"/etc/rc
+
+	echo "bootstrap" >"$out"/etc/hostname
+
+	cat >"$out"/etc/passwd <<-"EOF"
+	root::0:0:root:/root:/bin/sh
+	EOF
+}

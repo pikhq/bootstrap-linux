@@ -1,0 +1,13 @@
+url=http://www.multiprecision.org/mpc/download/mpc-$version.tar.gz
+
+out="$top/cross"
+
+config() {
+	munge-config-sub
+
+	./configure --prefix="$out"/$A-unknown-linux-musl/ --host=$A-unknown-linux-musl --disable-shared
+}
+
+install() {
+	make install
+}

@@ -1,0 +1,10 @@
+url=http://ftpmirror.gnu.org/gmp/gmp-$version.tar.bz2
+
+CC=$A-unknown-linux-musl-gcc
+CFLAGS="$CFLAGS -D_GNU_SOURCE -D_BSD_SOURCE -Wno-implicit"
+
+config() {
+	munge-config-sub configfsf.sub
+
+	./configure --prefix=/ --host=$A-unknown-linux-musl
+}

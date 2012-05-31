@@ -1,0 +1,13 @@
+url=http://ftp.gnu.org/gnu/mpfr/mpfr-$version.tar.bz2
+
+out="$top/cross"
+
+config() {
+	munge-config-sub
+
+	./configure --prefix="$out"/$A-unknown-linux-musl --host=$A-unknown-linux-musl --disable-shared
+}
+
+install() {
+	make install
+}

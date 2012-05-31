@@ -1,0 +1,8 @@
+url=http://ftp.gnu.org/gnu/$name/$name-$version.tar.bz2
+
+CFLAGS="$CFLAGS -D__BEOS__"
+
+config() {
+	munge-config-sub config/config.sub
+	./configure --prefix=/ --disable-nls --host=$A-unknown-linux-musl
+}

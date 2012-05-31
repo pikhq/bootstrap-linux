@@ -1,0 +1,7 @@
+url=http://ftp.gnu.org/gnu/$name/$name-$version.tar.bz2
+patches=binutils-2.22-musl.diff
+
+config() {
+	./configure --host=$A-unknown-linux-musl --target=$A-unknown-linux-musl --prefix=/ \
+		--disable-werror --disable-nls
+}

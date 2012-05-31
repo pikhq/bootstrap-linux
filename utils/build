@@ -1,0 +1,65 @@
+#!/bin/sh -e
+
+: ${A:=$(uname -m)}
+export A
+
+: ${top:=`pwd`}
+: ${out:=$top/out}
+: ${work:=$top/work}
+: ${srcdir:=$top/src}
+: ${patchdir:=$top/patches}
+
+fetch() {
+	if [ "x$md5sum" != "x" ];then
+		if [ !-e "$srcdir/$src" -o "$(md5sum $srcdir/$src)" != "$md5sum  $srcdir/$src" ];then
+			wget "$url" -O "$srcdir/$src"
+		fi
+	else
+		test -e "$srcdir/$src" || wget "$url" -O "$srcdir/$src"
+	fi
+}
+
+unpack() {
+	cd "$work"
+	tar -xf "$srcdir/$src"
+	: ${unpack:=$(basename $(basename $(basename $(basename "$src" .gz) .bz2) .xz) .tar)}
+	cd "$unpack"
+}
+
+prep() {
+	for x in $patches;do
+		patch -p1 <"$patchdir/$x"
+	done
+}
+
+config() {
+	if [ -x configure ];then
+		munge-config-sub
+		./configure --prefix=/ --host=$A-unknown-linux-musl
+	fi
+}
+
+build() {
+	make
+}
+
+install() {
+	make DESTDIR="$out" install
+}
+
+name=$(printf '%s' "$(basename "$1")" | sed 's|-[^-]*$||')
+version=$(printf '%s' "$(basename "$1")" | sed 's|[^-]*-||g')
+
+. "$(dirname $1)/$(basename $1)"
+: ${src:=$(printf '%s' "$url"|sed 's|[^/]*/||g')}
+: ${unpack:=$name-$version}
+(
+	fetch
+	unpack
+	prep
+	config
+	build
+	install
+	cd "$top"
+	rm -rf "$work/$unpack"
+)

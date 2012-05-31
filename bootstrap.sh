@@ -1,17 +1,28 @@
 #!/bin/sh -e
-A=$(uname -m)
-[ "$A" = i686 ] && A=i386
-export A
-export R=$(pwd)/out/
-export CFLAGS="-Os"
-export LDFLAGS="-static -s"
 
-./musl-bootstrap.build.sh
-export CC=$R/bin/musl-gcc
-./binutils.build.sh
-./gcc.build.sh
-./make.build.sh
-./linux.build.sh
-./busybox.build.sh
-CC=gcc ./musl.build.sh
-./finish.build.sh
+export PATH=$(pwd)/cross/bin:$(pwd)/utils:$PATH
+
+build cross-scripts/binutils-*
+build cross-scripts/gcc-*
+
+export CC=""
+export CFLAGS="-Os"
+export LDFLAGS="-s"
+
+build cross-scripts/linux-headers-*
+build cross-scripts/musl-*
+
+build cross-scripts/gmp-*
+build cross-scripts/mpfr-*
+build cross-scripts/mpc-*
+
+build build-scripts/musl-*
+build build-scripts/binutils-*
+build build-scripts/gcc-*
+build build-scripts/make-*
+build build-scripts/gmp-*
+build build-scripts/mpfr-*
+build build-scripts/mpc-*
+build build-scripts/busybox-*
+build build-scripts/linux-*
+build build-scripts/finish
