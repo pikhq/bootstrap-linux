@@ -3,5 +3,5 @@ patches=binutils-2.22-musl.diff
 
 config() {
 	./configure --host=$A-unknown-linux-musl --target=$A-unknown-linux-musl --prefix=/ \
-		--disable-werror --disable-nls
+		--disable-werror --disable-shared --disable-nls
 }
