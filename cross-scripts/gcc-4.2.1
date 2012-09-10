@@ -1,0 +1,27 @@
+name=gcc
+
+url=http://ftp.gnu.org/gnu/gcc/gcc-$version/gcc-core-$version.tar.bz2
+patches=gcc-4.2.1-musl.diff
+
+out=$top/cross
+
+CFLAGS="$CFLAGS -D_GNU_SOURCE"
+
+config() {
+	sed -i 's@\./fixinc\.sh@-c true@' gcc/Makefile.in
+	rm -rf "$work/gcc-build"
+	mkdir "$work/gcc-build"
+	cd "$work/gcc-build"
+	"$work/$unpack"/configure --target=$A-unknown-linux-musl --enable-languages=c --with-newlib \
+		--disable-multilib --disable-libssp --disable-libquadmath \
+		--disable-threads --disable-decimal-float --disable-shared \
+		--disable-libmudflap --disable-libgomp --prefix="$out"
+}
+
+install() {
+	make install
+	cd "$work/$unpack"
+	rm -rf "$work/gcc-build"
+	cat gcc/limitx.h gcc/glimits.h gcc/limity.h > \
+		`dirname $($A-unknown-linux-musl-gcc -print-libgcc-file-name)`/include/limits.h
+}

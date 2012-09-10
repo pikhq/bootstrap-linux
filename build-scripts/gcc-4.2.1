@@ -1,0 +1,18 @@
+url=http://ftp.gnu.org/gnu/gcc/gcc-$version/gcc-core-$version.tar.bz2
+patches=gcc-4.2.1-musl.diff
+
+CC="$CC -D_GNU_SOURCE"
+
+config() {
+	sed -i 's@\./fixinc\.sh@-c true@' gcc/Makefile.in
+	mkdir "$work/gcc-build"
+	cd "$work/gcc-build"
+	"$work/$unpack"/configure --build=$A-unknown-linux-gnu --host=$A-unknown-linux-musl --target=$A-unknown-linux-musl --enable-languages=c \
+		--prefix=/ --disable-libmudflap --disable-shared --disable-nls --disable-bootstrap --disable-libgomp --with-newlib
+}
+
+install() {
+	make install DESTDIR="$out" && false
+	cd "$work/$unpack"
+	rm -rf "$work/gcc-build"
+}
