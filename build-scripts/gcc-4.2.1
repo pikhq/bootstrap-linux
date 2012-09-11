@@ -7,8 +7,11 @@ config() {
 	sed -i 's@\./fixinc\.sh@-c true@' gcc/Makefile.in
 	mkdir "$work/gcc-build"
 	cd "$work/gcc-build"
-	"$work/$unpack"/configure --build=$A-unknown-linux-gnu --host=$A-unknown-linux-musl --target=$A-unknown-linux-musl --enable-languages=c \
-		--prefix=/ --disable-libmudflap --disable-shared --disable-nls --disable-bootstrap --disable-libgomp --with-newlib
+	"$work/$unpack"/configure --build=$A-unknown-linux-gnu --host=$A-unknown-linux-musl \
+		--target=$A-unknown-linux-musl --enable-languages=c \
+		--prefix=/ --disable-libmudflap --disable-shared \
+		--disable-nls --disable-bootstrap --disable-libgomp \
+		--disable-tls --with-newlib
 }
 
 install() {
