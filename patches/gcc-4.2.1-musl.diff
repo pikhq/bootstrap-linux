@@ -161,27 +161,3 @@ diff --git a/gcc/ginclude/stddef.h b/gcc/ginclude/stddef.h
  #endif /* __size_t */
  #endif /* _SIZET_ */
  #endif /* _GCC_SIZE_T */
-diff --git a/libgomp/config/posix/time.c b/libgomp/config/posix/time.c
---- a/libgomp/config/posix/time.c
-+++ b/libgomp/config/posix/time.c
-@@ -31,6 +31,8 @@
-    The following implementation uses the most simple POSIX routines.
-    If present, POSIX 4 clocks should be used instead.  */
- 
-+#define _POSIX_C_SOURCE 199309L /* for clocks */
-+
- #include "libgomp.h"
- #include <unistd.h>
- #if TIME_WITH_SYS_TIME
-diff --git a/libgomp/env.c b/libgomp/env.c
---- a/libgomp/env.c
-+++ b/libgomp/env.c
-@@ -28,6 +28,8 @@
- /* This file defines the OpenMP internal control variables, and arranges
-    for them to be initialized from environment variables at startup.  */
- 
-+#define _GNU_SOURCE
-+
- #include "libgomp.h"
- #include "libgomp_f.h"
- #include <ctype.h>

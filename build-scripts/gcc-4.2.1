@@ -1,10 +1,15 @@
 url=http://ftp.gnu.org/gnu/gcc/gcc-$version/gcc-core-$version.tar.bz2
 patches=gcc-4.2.1-musl.diff
 
-CC="$CC -D_GNU_SOURCE"
-
 config() {
 	sed -i 's@\./fixinc\.sh@-c true@' gcc/Makefile.in
+
+	for i in strsignal putenv random setenv strstr strtod strtol strtoul; do
+		culprit=libiberty/$i.c
+		rm $culprit
+		touch $culprit
+	done
+
 	mkdir "$work/gcc-build"
 	cd "$work/gcc-build"
 	"$work/$unpack"/configure --build=$A-unknown-linux-gnu --host=$A-unknown-linux-musl \
@@ -14,8 +19,12 @@ config() {
 		--disable-tls --with-newlib
 }
 
+build() {
+	make all-gcc
+}
+
 install() {
-	make install DESTDIR="$out" && false
+	make install-gcc DESTDIR="$out"
 	cd "$work/$unpack"
 	rm -rf "$work/gcc-build"
 }

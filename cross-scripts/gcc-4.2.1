@@ -5,8 +5,6 @@ patches=gcc-4.2.1-musl.diff
 
 out=$top/cross
 
-CFLAGS="$CFLAGS -D_GNU_SOURCE"
-
 config() {
 	sed -i 's@\./fixinc\.sh@-c true@' gcc/Makefile.in
 	rm -rf "$work/gcc-build"
