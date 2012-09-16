@@ -17,8 +17,12 @@ config() {
 		--prefix="$out"
 }
 
+build() {
+	make all-gcc
+}
+
 install() {
-	make install
+	make install-gcc
 	cd "$work/$unpack"
 	rm -rf "$work/gcc-build"
 	cat gcc/limitx.h gcc/glimits.h gcc/limity.h > \
