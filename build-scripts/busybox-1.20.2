@@ -17,6 +17,6 @@ install() {
 	cp busybox "$out"/bin/busybox
 
 	cat busybox.links | while read line;do
-		ln -s busybox "$(basename $line)"
+		ln -sf busybox "$out"/bin/"$(basename $line)"
 	done
 }
