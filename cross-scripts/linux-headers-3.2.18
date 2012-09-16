@@ -11,11 +11,11 @@ patches=linux-noperl-headers.patch
 
 config() {
 	make allnoconfig ARCH=$ARCH CROSS_COMPILE="$A-unknown-linux-musl-" \
-		HOSTCFLAGS="-D_GNU_SOURCE" KCONFIG_ALLCONFIG="$top/linux.config"
+		KCONFIG_ALLCONFIG="$top/linux.config"
 }
 
 build() {
-	make HOSTCFLAGS=-D_GNU_SOURCE ARCH=$ARCH CROSS_COMPILE="$A-unknown-linux-musl-" \
+	make ARCH=$ARCH CROSS_COMPILE="$A-unknown-linux-musl-" \
 		INSTALL_HDR_PATH=dest headers_install
 }
 

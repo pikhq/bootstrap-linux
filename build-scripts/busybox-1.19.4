@@ -3,12 +3,12 @@ url=http://busybox.net/downloads/$name-$version.tar.bz2
 patches=busybox-musl-fixes.patch
 
 config() {
-	make allnoconfig CROSS_COMPILE="$A-unknown-linux-musl-" HOSTCFLAGS="-D_GNU_SOURCE" \
+	make allnoconfig CROSS_COMPILE="$A-unknown-linux-musl-" \
 		KCONFIG_ALLCONFIG="$top"/busybox.config
 }
 
 build() {
-	make CROSS_COMPILE="$A-unknown-linux-musl-" HOSTCFLAGS="-D_GNU_SOURCE"
+	make CROSS_COMPILE="$A-unknown-linux-musl-" 
 }
 
 install() {
