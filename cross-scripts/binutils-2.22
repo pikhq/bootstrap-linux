@@ -5,9 +5,9 @@ patches=binutils-2.22-musl.diff
 out=$top/cross
 
 config() {
-	./configure --target=$A-unknown-linux-musl --prefix="$out"
+	./configure --target=$A-unknown-linux-musl --prefix="$out" --disable-install-libbfd
 }
 
 install() {
-	make install
+	make install-gas install-ld install-binutils
 }
