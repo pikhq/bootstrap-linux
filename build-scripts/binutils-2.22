@@ -1,6 +1,9 @@
 url=http://ftp.gnu.org/gnu/$name/$name-$version.tar.bz2
 patches=binutils-2.22-musl.diff
 
+CFLAGS="$CFLAGS -ffunction-sections -fdata-sections"
+LDFLAGS="$LDFLAGS -Wl,--gc-sections"
+
 config() {
 	./configure --host=$A-unknown-linux-musl --target=$A-unknown-linux-musl --prefix=/ \
 		--disable-werror --disable-shared --disable-nls --disable-install-libbfd
