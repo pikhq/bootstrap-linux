@@ -1,0 +1,14 @@
+url=http://landley.net/aboriginal/mirror/$name-$version.tar.bz2
+out=$top/cross
+
+patches=binutils-screwinfo.patch
+
+config() {
+	munge-config-sub
+	./configure --target=$A-unknown-linux-musl --prefix="$out" --disable-install-libbfd \
+		--disable-werror
+}
+
+install() {
+	make install-gas install-ld install-binutils
+}
