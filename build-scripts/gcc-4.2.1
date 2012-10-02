@@ -1,22 +1,23 @@
 url=http://ftp.gnu.org/gnu/gcc/gcc-$version/gcc-core-$version.tar.bz2
 patches=gcc-4.2.1-musl.diff
 
-config() {
-	sed -i 's@\./fixinc\.sh@-c true@' gcc/Makefile.in
+config_options="--build=$A-unknown-linux --enable-languages=c"
+config_options="$config_options --disable-libmudflap --disable-shared --disable-nls"
+config_options="$config_options --disable-bootstrap --disable-libgomp --disable-tls"
+config_options="$config_options --with-newlib"
 
-	for i in strsignal putenv random setenv strstr strtod strtol strtoul; do
+prep() {
+	for x in $patches;do
+		patch -p1 <"$patchdir/$x"
+	done
+
+	sed -i 's@\./fixinc\.sh@-c true@' gcc/Makefile.in
+	
+	for i in strsignal putenv random setenv strstr strtod strtol strtoul;do
 		culprit=libiberty/$i.c
 		rm $culprit
 		touch $culprit
 	done
-
-	mkdir "$work/gcc-build"
-	cd "$work/gcc-build"
-	"$work/$unpack"/configure --build=$A-unknown-linux-gnu --host=$A-unknown-linux-musl \
-		--target=$A-unknown-linux-musl --enable-languages=c \
-		--prefix=/ --disable-libmudflap --disable-shared \
-		--disable-nls --disable-bootstrap --disable-libgomp \
-		--disable-tls --with-newlib
 }
 
 build() {
@@ -25,6 +26,4 @@ build() {
 
 install() {
 	make install-gcc DESTDIR="$out"
-	cd "$work/$unpack"
-	rm -rf "$work/gcc-build"
 }
