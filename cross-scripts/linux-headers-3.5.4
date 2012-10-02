@@ -1,6 +1,3 @@
-ARCH=$A
-[ "$ARCH" = "i686" ] && ARCH=i386
-
 name=linux
 
 url=http://www.kernel.org/pub/linux/kernel/v3.0/linux-$version.tar.bz2
@@ -9,14 +6,17 @@ out=$top/cross
 
 patches=linux-noperl-headers.patch
 
+export CROSS_COMPILE="$A-unknown-linux-musl-"
+ARCH=$A
+[ "$ARCH" = "i686" ] && ARCH=i386
+export ARCH
+
 config() {
-	make allnoconfig ARCH=$ARCH CROSS_COMPILE="$A-unknown-linux-musl-" \
-		KCONFIG_ALLCONFIG="$top/linux.config"
+	make allnoconfig KCONFIG_ALLCONFIG="$top/linux.config"
 }
 
 build() {
-	make ARCH=$ARCH CROSS_COMPILE="$A-unknown-linux-musl-" \
-		INSTALL_HDR_PATH=dest headers_install
+	make INSTALL_HDR_PATH=dest headers_install
 }
 
 install() {

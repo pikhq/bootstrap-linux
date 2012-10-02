@@ -2,13 +2,10 @@ url=http://busybox.net/downloads/$name-$version.tar.bz2
 
 patches=busybox-musl-fixes.patch
 
-config() {
-	make allnoconfig CROSS_COMPILE="$A-unknown-linux-musl-" \
-		KCONFIG_ALLCONFIG="$top"/busybox.config
-}
+export CROSS_COMPILE="$A-unknown-linux-musl-"
 
-build() {
-	make CROSS_COMPILE="$A-unknown-linux-musl-" 
+config() {
+	make allnoconfig KCONFIG_ALLCONFIG="$top"/busybox.config
 }
 
 install() {

@@ -1,21 +1,21 @@
-ARCH=$A
-[ "$ARCH" = "i686" ] && ARCH=i386
-
 url=http://www.kernel.org/pub/linux/kernel/v3.0/linux-$version.tar.bz2
 
 patches="linux-noperl-capflags.patch linux-noperl-headers.patch linux-noperl-timeconst.patch linux-posix-sed.patch"
 
+export CROSS_COMPILE="$A-unknown-linux-musl-"
+ARCH=$A
+[ "$ARCH" = "i686" ] && ARCH=i386
+export ARCH
+
 config() {
-	make allnoconfig ARCH=$ARCH CROSS_COMPILE="$A-unknown-linux-musl-" \
-		KCONFIG_ALLCONFIG="$top/linux.config"
+	make allnoconfig KCONFIG_ALLCONFIG="$top/linux.config"
 }
 
 build() {
-	make ARCH=$ARCH CROSS_COMPILE="$A-unknown-linux-musl-" \
-		INSTALL_HDR_PATH=dest headers_install
+	make INSTALL_HDR_PATH=dest headers_install
 	find dest/include \( -name .install -o -name ..install.cmd \) -delete
 	
-	make ARCH=$ARCH CROSS_COMPILE="$A-unknown-linux-musl-"
+	make
 }
 
 install() {
@@ -27,7 +27,7 @@ install() {
 		cp arch/$ARCH/boot/bzImage "$out"/boot/vmlinuz-$version
 	fi
 
-	make INSTALL_MOD_PATH="$out" ARCH=$ARCH CROSS_COMPILE="$A-unknown-linux-musl-" modules_install
+	make INSTALL_MOD_PATH="$out" modules_install
 
 	mkdir -p "$out"/include/
 	cp -rv dest/include/* "$out"/include/
