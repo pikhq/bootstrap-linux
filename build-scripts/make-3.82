@@ -1,6 +1,3 @@
 url=http://ftp.gnu.org/gnu/$name/$name-$version.tar.bz2
-
-config() {
-	munge-config-sub config/config.sub
-	./configure --prefix=/ --disable-nls --host=$A-unknown-linux-musl
-}
+config_sub=config/config.sub
+config_options=--disable-nls

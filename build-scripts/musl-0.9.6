@@ -1,5 +1,2 @@
 url=http://www.etalabs.net/musl/releases/musl-$version.tar.gz
-
-config() {
-	./configure --host=$A-unknown-linux-musl --prefix=/ --disable-gcc-wrapper
-}
+config_options=--disable-gcc-wrapper

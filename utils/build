@@ -34,8 +34,9 @@ prep() {
 
 config() {
 	if [ -x configure ];then
-		munge-config-sub
-		./configure --prefix=/ --host=$A-unknown-linux-musl
+		munge-config-sub $config_sub
+		./configure --prefix=/ --host=$A-unknown-linux-musl \
+			--target=$A-unknown-linux-musl $config_options
 	fi
 }
 
