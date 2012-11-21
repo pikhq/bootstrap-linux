@@ -3,8 +3,7 @@ patches=gcc-4.2.1-musl.diff
 
 config_options="--build=$A-unknown-linux --enable-languages=c"
 config_options="$config_options --disable-libmudflap --disable-shared --disable-nls"
-config_options="$config_options --disable-bootstrap --disable-libgomp --disable-tls"
-config_options="$config_options --with-newlib"
+config_options="$config_options --disable-bootstrap --disable-libgomp --with-newlib"
 
 prep() {
 	for x in $patches;do
