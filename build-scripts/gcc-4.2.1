@@ -28,7 +28,7 @@ install() {
 }
 
 stage() {
-	rm -rf "$tmp"/lib/$A-musl/$version/install-tools
-	rm -rf "$tmp"/libexec/$A-musl/$version/install-tools
+	rm -rf "$tmp"/lib/gcc/$A-unknown-linux-musl/$version/install-tools
+	rm -rf "$tmp"/libexec/gcc/$A-unknown-linux-musl/$version/install-tools
 	rm -rf "$tmp"/man "$tmp"/info
 }
