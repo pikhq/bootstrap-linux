@@ -1,2 +1,8 @@
 url=http://www.etalabs.net/musl/releases/musl-$version.tar.gz
 config_options=--disable-gcc-wrapper
+
+stage() {
+	mkdir -p "$tmp"/bin
+	ln -s ../lib/libc.so "$tmp"/bin/ldd
+	ln -sf libc.so "$tmp"/lib/ld-musl-$A.so.1
+}
