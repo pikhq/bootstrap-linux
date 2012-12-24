@@ -1,3 +1,7 @@
 url=http://ftp.gnu.org/gnu/$name/$name-$version.tar.bz2
 config_sub=config/config.sub
 config_options=--disable-nls
+
+stage() {
+	rm -rf "$tmp"/share
+}
