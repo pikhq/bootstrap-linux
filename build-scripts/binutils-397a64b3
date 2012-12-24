@@ -9,3 +9,7 @@ config_options="--disable-werror --disable-shared --disable-nls --disable-instal
 install() {
 	make install-gas install-ld install-binutils DESTDIR="$tmp"
 }
+
+stage() {
+	rm -rf "$tmp"/man "$tmp"/info
+}
