@@ -19,16 +19,16 @@ build() {
 }
 
 install() {
-	mkdir -p "$out"/boot
-	cp System.map "$out"/boot
+	mkdir -p "$tmp"/boot
+	cp System.map "$tmp"/boot
 	if [ "$ARCH" = "i386" -o "$ARCH" = "x86_64" ];then
-		cp arch/x86/boot/bzImage "$out"/boot/vmlinuz-$version
+		cp arch/x86/boot/bzImage "$tmp"/boot/vmlinuz-$version
 	else
-		cp arch/$ARCH/boot/bzImage "$out"/boot/vmlinuz-$version
+		cp arch/$ARCH/boot/bzImage "$tmp"/boot/vmlinuz-$version
 	fi
 
-	make INSTALL_MOD_PATH="$out" modules_install
+	make INSTALL_MOD_PATH="$tmp" modules_install
 
-	mkdir -p "$out"/include/
-	cp -rv dest/include/* "$out"/include/
+	mkdir -p "$tmp"/include/
+	cp -rv dest/include/* "$tmp"/include/
 }

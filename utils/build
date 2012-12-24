@@ -45,7 +45,11 @@ build() {
 }
 
 install() {
-	make DESTDIR="$out" install
+	make DESTDIR="$tmp" install
+}
+
+stage() {
+	:
 }
 
 name=$(printf '%s' "$(basename "$1")" | sed 's|-[^-]*$||')
@@ -60,7 +64,13 @@ version=$(printf '%s' "$(basename "$1")" | sed 's|[^-]*-||g')
 	prep
 	config
 	build
+	tmp=`mktemp -d`
 	install
+	stage
+	if [ -n "`ls "$tmp"`" ]; then
+		cp -rv "$tmp"/* "$out"
+	fi
+	rm -rf "$tmp"
 	cd "$top"
 	rm -rf "$work/$unpack"
 )

@@ -10,10 +10,10 @@ config() {
 
 install() {
 	make busybox.links
-	mkdir -p "$out"/bin
-	cp busybox "$out"/bin/busybox
+	mkdir -p "$tmp"/bin
+	cp busybox "$tmp"/bin/busybox
 
 	cat busybox.links | while read line;do
-		ln -sf busybox "$out"/bin/"$(basename $line)"
+		ln -sf busybox "$tmp"/bin/"$(basename $line)"
 	done
 }

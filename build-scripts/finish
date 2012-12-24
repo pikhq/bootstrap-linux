@@ -5,18 +5,18 @@ build() { :; }
 
 install() {
 	for i in etc proc dev sys root mnt tmp;do
-		mkdir -p "$out"/$i
+		mkdir -p "$tmp"/$i
 	done
 
-	if [ -d "$out"/sbin ];then
-		mv "$out"/sbin/* "$out"/bin
-		rmdir "$out"/sbin
-		ln -s bin "$out"/sbin
+	if [ -d "$tmp"/sbin ];then
+		mv "$tmp"/sbin/* "$tmp"/bin
+		rmdir "$tmp"/sbin
+		ln -s bin "$tmp"/sbin
 	fi
 
-	ln -sf / "$out"/usr
+	ln -sf / "$tmp"/usr
 
-	cat >"$out"/etc/inittab <<-"EOF"
+	cat >"$tmp"/etc/inittab <<-"EOF"
 	::sysinit:/etc/rc
 	tty1:2345:respawn:/bin/getty 38400 tty1
 	tty2:23:respawn:/bin/getty 38400 tty2
@@ -28,7 +28,7 @@ install() {
 	::ctrlaltdel:/bin/swapoff -a
 	EOF
 
-	cat >"$out"/etc/rc <<-"EOF"
+	cat >"$tmp"/etc/rc <<-"EOF"
 	#!/bin/sh
 	cd /
 	mount -t proc proc /proc
@@ -41,11 +41,11 @@ install() {
 	mdev -s
 	hostname $(cat /etc/hostname)
 	EOF
-	chmod +x "$out"/etc/rc
+	chmod +x "$tmp"/etc/rc
 
-	echo "bootstrap" >"$out"/etc/hostname
+	echo "bootstrap" >"$tmp"/etc/hostname
 
-	cat >"$out"/etc/passwd <<-"EOF"
+	cat >"$tmp"/etc/passwd <<-"EOF"
 	root::0:0:root:/root:/bin/sh
 	EOF
 }
