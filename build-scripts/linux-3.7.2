@@ -1,6 +1,6 @@
 url=http://www.kernel.org/pub/linux/kernel/v3.0/linux-$version.tar.bz2
 
-patches="linux-noperl-capflags.patch linux-noperl-headers.patch linux-noperl-timeconst.patch linux-posix-sed.patch"
+patches="linux-noperl-capflags.patch linux-noperl-headers.patch linux-noperl-timeconst.patch linux-posix-sed.patch linux-workaround-old-gcc.patch"
 
 export CROSS_COMPILE="$A-unknown-linux-musl-"
 ARCH=$A
@@ -26,8 +26,6 @@ install() {
 	else
 		cp arch/$ARCH/boot/bzImage "$tmp"/boot/vmlinuz-$version
 	fi
-
-	make INSTALL_MOD_PATH="$tmp" modules_install
 
 	mkdir -p "$tmp"/include/
 	cp -rv dest/include/* "$tmp"/include/
