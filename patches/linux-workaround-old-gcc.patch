@@ -1,0 +1,35 @@
+diff --git a/arch/x86/kernel/cpu/perf_event_knc.c b/arch/x86/kernel/cpu/perf_event_knc.c
+index 4b7731b..838fa87 100644
+--- a/arch/x86/kernel/cpu/perf_event_knc.c
++++ b/arch/x86/kernel/cpu/perf_event_knc.c
+@@ -17,7 +17,7 @@ static const u64 knc_perfmon_event_map[] =
+   [PERF_COUNT_HW_BRANCH_MISSES]		= 0x002b,
+ };
+ 
+-static __initconst u64 knc_hw_cache_event_ids
++static const u64 __initconst knc_hw_cache_event_ids
+ 				[PERF_COUNT_HW_CACHE_MAX]
+ 				[PERF_COUNT_HW_CACHE_OP_MAX]
+ 				[PERF_COUNT_HW_CACHE_RESULT_MAX] =
+@@ -284,7 +284,7 @@ static struct attribute *intel_knc_formats_attr[] = {
+ 	NULL,
+ };
+ 
+-static __initconst struct x86_pmu knc_pmu = {
++static const struct x86_pmu knc_pmu __initconst = {
+ 	.name			= "knc",
+ 	.handle_irq		= knc_pmu_handle_irq,
+ 	.disable_all		= knc_pmu_disable_all,
+diff --git a/arch/x86/kernel/cpu/perf_event_p6.c b/arch/x86/kernel/cpu/perf_event_p6.c
+index f2af39f..b1e2fe1 100644
+--- a/arch/x86/kernel/cpu/perf_event_p6.c
++++ b/arch/x86/kernel/cpu/perf_event_p6.c
+@@ -19,7 +19,7 @@ static const u64 p6_perfmon_event_map[] =
+ 
+ };
+ 
+-static __initconst u64 p6_hw_cache_event_ids
++static const u64 __initconst p6_hw_cache_event_ids
+ 				[PERF_COUNT_HW_CACHE_MAX]
+ 				[PERF_COUNT_HW_CACHE_OP_MAX]
+ 				[PERF_COUNT_HW_CACHE_RESULT_MAX] =
